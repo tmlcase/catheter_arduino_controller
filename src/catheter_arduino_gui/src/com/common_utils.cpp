@@ -338,16 +338,17 @@ comStatus parseBytes2Cmds(std::vector<unsigned char>& bytesRead, std::vector<Cat
 	int sizeEst(parsePreamble(bytesRead));
 
 	// calculate the size of the return
-	if (sizeEst != bytesRead.size())
+	if (sizeEst > bytesRead.size())
 	{
 		bytesRead.clear();
 		return invalid;
 	}
 
 	//validate the bytes and fletcher code.
-	uint8_t chksum(fletcher8(bytesRead.size()-1, bytesRead.data()));
-	if (chksum != bytesRead.back())
+	uint8_t chksum(fletcher8(sizeEst -1, bytesRead.data()));
+	if (chksum != bytesRead[sizeEst-1])
 	{
+		// clear
 		bytesRead.clear();
 		return invalid;
 	}
@@ -355,12 +356,12 @@ comStatus parseBytes2Cmds(std::vector<unsigned char>& bytesRead, std::vector<Cat
 	// intrepret each byte
 	int byteIndex(2);
 
-	while (byteIndex + 3 < bytesRead.size())
+	while (byteIndex + 3 < sizeEst)
 	{
 		cmds.push_back(expandCommandBytes(bytesRead, byteIndex));
 	}
 
-	bytesRead.clear();
+	bytesRead.erase(bytesRead.begin(), bytesRead.begin() + sizeEst);
 	return valid;
 	
 	
@@ -407,7 +408,7 @@ comStatus parseBytes2Cmds(std::vector<unsigned char>& bytesRead, std::vector<Cat
 	return true;  */
 }
 
-int parsePreamble(std::vector < uint8_t > inputBytes )
+int parsePreamble(const std::vector < uint8_t > &inputBytes )
 {
 	// byte 1 
 	uint8_t ok((inputBytes[0] >> 6) % 2);
