@@ -1,0 +1,10 @@
+*/Debug/
+/arduino_controller/
+/ipch/
+*.opensdf
+*.sdf
+*.local.*
+*.suo
+/Debug/
+/local.props
+*.VC.db

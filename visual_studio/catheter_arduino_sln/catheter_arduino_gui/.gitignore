@@ -1,0 +1,4 @@
+*.vcxproj.user
+/cmds_to_send.play
+/reset_bytes_returned.txt
+/reset_bytes_sent.txt

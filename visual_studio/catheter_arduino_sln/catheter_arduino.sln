@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "catheter_arduino_gui", "catheter_arduino_gui\catheter_arduino_gui.vcxproj", "{2D3205E2-43CD-47C1-8E0C-5D26562CCD12}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D3205E2-43CD-47C1-8E0C-5D26562CCD12}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2D3205E2-43CD-47C1-8E0C-5D26562CCD12}.Debug|Win32.Build.0 = Debug|Win32
+		{2D3205E2-43CD-47C1-8E0C-5D26562CCD12}.Debug|x64.ActiveCfg = Debug|x64
+		{2D3205E2-43CD-47C1-8E0C-5D26562CCD12}.Debug|x64.Build.0 = Debug|x64
+		{2D3205E2-43CD-47C1-8E0C-5D26562CCD12}.Release|Win32.ActiveCfg = Release|Win32
+		{2D3205E2-43CD-47C1-8E0C-5D26562CCD12}.Release|Win32.Build.0 = Release|Win32
+		{2D3205E2-43CD-47C1-8E0C-5D26562CCD12}.Release|x64.ActiveCfg = Release|x64
+		{2D3205E2-43CD-47C1-8E0C-5D26562CCD12}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

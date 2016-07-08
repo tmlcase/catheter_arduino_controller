@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+	<Import Project="local.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <!-- BEGIN include directories -->
+    <RS2_BASE>..\..\..</RS2_BASE>
+	<RS2_INCLUDE>$(RS2_BASE)\include</RS2_INCLUDE>
+    <WX_INCLUDE>$(WX_DIR)\include</WX_INCLUDE>
+	<WX_MSVC_INCLUDE>$(WX_INCLUDE)\msvc</WX_MSVC_INCLUDE>
+	<WX_INCLUDES>$(WX_INCLUDE);$(WX_MSVC_INCLUDE)</WX_INCLUDES>
+	
+	<BOOST_INCLUDE>$(BOOST_DIR)</BOOST_INCLUDE>
+	
+	<!-- END include directories -->
+	
+	<!-- BEGIN .lib directories -->
+    <BOOST_LIB64_DIR>$(BOOST_DIR)\stage\lib64</BOOST_LIB64_DIR>
+	<BOOST_LIB_DIR>$(BOOST_DIR)\stage\lib</BOOST_LIB_DIR>
+    <WX_LIB_DIR>$(WX_DIR)\lib\vc_lib</WX_LIB_DIR>
+	<WX_LIB64_DIR>$(WX_DIR)\lib\vc_x64_lib</WX_LIB64_DIR>
+	
+	<!-- END .lib directories -->
+	
+	<!-- BEGIN bin directories -->
+
+	<!-- END bin directories -->
+	
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup />
+</Project>

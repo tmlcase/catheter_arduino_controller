@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+	<BOOST_DIR>C:\libraries\boost_1_55_0</BOOST_DIR>
+	<EIGEN_DIR>C:\libraries\eigen_3.2.1</EIGEN_DIR>
+	<OPENCV_DIR>C:\libraries\opencv2.4.9</OPENCV_DIR>
+	<OPENCV_DIR64>C:\libraries\opencv2.4.9_x64</OPENCV_DIR64>
+	<FLYCAP_DIR>C:\Program Files (x86)\Point Grey Research\FlyCapture2</FLYCAP_DIR>
+	<FLYCAP_DIR64>C:\Program Files\Point Grey Research\FlyCapture2</FLYCAP_DIR64>
+	<WDK_DIR>C:\WinDDK\7600.16385.1</WDK_DIR>
+	<WX_DIR>C:\libraries\wxWidgets_3.0.0</WX_DIR>
+	<CUDA_DIR>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.0</CUDA_DIR>
+    <BOOST_VERSION>1_55_0</BOOST_VERSION>
+    <EIGEN_VERSION>_3.2.1</EIGEN_VERSION>
+    <OPENCV_VERSION>2.4.9</OPENCV_VERSION>
+    <FLYCAP_VERSION>2_6_3_2</FLYCAP_VERSION>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="BOOST_VERSION">
+      <Value>$(BOOST_VERSION)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

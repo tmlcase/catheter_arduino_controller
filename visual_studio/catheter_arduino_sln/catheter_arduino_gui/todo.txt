@@ -1,0 +1,21 @@
+2-8-2016 TODO
+(higher numbers have greater priority)
+
+1. more descriptive status messages while commands are being sent
+2. increase maximum command delay from 20s
+2.25 figure out the 'Parsed $N Channel' mystery
+2.5 implement a 'global' button?
+2.75 implement some means of sending a function over some time period
+	- pseudo-solved by writing playfileGenerator class in java
+2.75 set a maximum size on the command grid so it doesnt swallow the status text field
+3. implement exit button (I think wxWidgets even has ID_EXIT defined that can be used) to ensure that
+	the serial port is reset/closed before the application closes (rather than doing this in the destructor
+	since the windows children have (?) already been deleted at that point
+4. ESTOP/interrupt mechanism for serial while commands are being sent which will stop the thread (hint: need 
+	to actually make this its own thread first) and then issue a reset command
+
+data collection tests:
+-keep one card at max while ramping up other cards (stability test)
+-evaluate linear behavior (bidirectional)
+-transition test (how fast does the h-bridge switch?)
+-why is there a negative offset (from box?)
