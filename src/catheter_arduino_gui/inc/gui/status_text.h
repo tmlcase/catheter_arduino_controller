@@ -7,6 +7,8 @@
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 
+// This file defines the status text box.
+
 class CatheterStatusText : public wxScrolledWindow {
 public:
 	

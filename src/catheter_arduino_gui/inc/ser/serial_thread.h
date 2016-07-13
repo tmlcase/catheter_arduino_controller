@@ -4,12 +4,13 @@
 
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
+#include "com/catheter_commands.h"
 #include "ser/serial_sender.h"
 #include "gui/status_text.h"
 #include "gui/status_frame.h"
 
 
-// This class acts a thread manager for offloading the serial communication.
+// This class acts a thread manager for offloading the serial communication. (high-level)
 // Prevents gui hangs.
 class SerialThreadObject
 {
@@ -21,7 +22,7 @@ public:
 
 	
 enum ThreadCmd {
-		noCmd = 0, resetArduino = -2, resetSerial = -1, connect, disconnect
+		noCmd = 0, resetArduino = -2, resetSerial = -1, poll  = 1, connect, disconnect
 	};
 enum ThreadStatus{
 		ready, error
@@ -67,11 +68,16 @@ private:
 
 	bool connected;
 
-    // serial connection
+    // serial port
     CatheterSerialSender* ss;
+	//SerialPort *sp;
+	//std::string port_name;
 
-    //
+
+    // data to send to arduino.
 	std::vector< CatheterChannelCmdSet > commandsToArd;
+
+	// reply from arduino.
 	CatheterChannelCmdSet commandFromArd;
 
 

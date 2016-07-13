@@ -4,7 +4,6 @@
 #include <iostream>
 #include <fstream>
 
-#include "com/common_utils.h"
 #include "com/pc_utils.h"
 #include "ser/serial_sender.h"
 #include "ser/simple_serial.h"
@@ -93,31 +92,9 @@ void CatheterSerialSender::serialReset() {
 }
 
 bool CatheterSerialSender::resetStop() {
-	if (sp->isOpen()) {
-		sendReset();
-	}
 	return stop();
 }
 
-bool CatheterSerialSender::sendReset() {
-	if (!sp->isOpen()) {
-		start();
-		boost::this_thread::sleep(boost::posix_time::milliseconds(300));
-	} 	
-
-	sp->flushData();
-	boost::this_thread::sleep(boost::posix_time::milliseconds(300));
-
-	unsigned int delay_ms = 0;
-	std::vector<unsigned char> bytesReturned;
-	std::vector<uint8_t> resetBytes = resetCommandBytes();
-	// bool ret = sendBytes(resetBytes, bytesReturned, RESPONSE_LEN(1, true, 0), &delay_ms);
-
-	sp->flushData();
-	boost::this_thread::sleep(boost::posix_time::milliseconds(300));
-
-	return false;
-}
 
 
 /*bool CatheterSerialSender::runPlayfile(const std::vector<CatheterChannelCmd>& cmds, std::vector<CatheterChannelCmd>& cmdsReturned) {
@@ -192,7 +169,7 @@ bool CatheterSerialSender::sendReset() {
 	if (packets_ok) {
 		int cmdptr = 0;
 		for (int i = 0; i < cmds.size(); i++) {		
-			packets_ok = packets_ok && (abs(cmds[i].currentMA - cmdsReturned[i].currentMA) < 1); // 1 mA rounding error? 
+			packets_ok = packets_ok && (abs(cmds[i].currentMilliAmp - cmdsReturned[i].currentMilliAmp) < 1); // 1 mA rounding error? 
 		}
 	}
 
@@ -233,11 +210,11 @@ bool CatheterSerialSender::connected()
 
 void CatheterSerialSender::sendCommand(const CatheterChannelCmdSet & outgoingData, int pseqnum)
 {
-	//parse the command:
-	std::vector< uint8_t > bytesOut(compactPacketBytes(outgoingData.commandList, pseqnum));
+	// parse the command:
+	std::vector< uint8_t > bytesOut(encodeCommandSet(outgoingData, pseqnum));
 	if (connected())
 	{
-		//send it through the serial port:
+		// send it through the serial port:
 		sp->write_some_bytes(bytesOut, bytesOut.size());
 	}
 }

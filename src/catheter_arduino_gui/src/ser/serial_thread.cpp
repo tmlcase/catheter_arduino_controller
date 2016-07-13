@@ -154,7 +154,10 @@ void SerialThreadObject::serialCommand(const ThreadCmd& incomingCommand)
 			case disconnect:
 				//disconnect from the arduino
 			break;
-			
+			case poll:
+				commandsToArd.clear();
+				commandsToArd.push_back(pollCmd());
+			break;
 			default:
 				if(textStatus != NULL)
 				{

@@ -9,12 +9,14 @@
 #include "wx/generic/grideditors.h"
 
 #include "gui/catheter_grid.h"
-#include "com/common_utils.h"
+
 
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
 
 #include <vector>
+
+#include "com\communication_definitions.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -91,7 +93,7 @@ void CatheterGrid::OnGridCellChanging(wxGridEvent& e)
         setGridRowChannel(row, e.GetString());
         break;
     case CURRENT_COL:
-        setGridRowCurrentMA(row, wxAtof(e.GetString()));
+        setGridRowcurrentMilliAmp(row, wxAtof(e.GetString()));
         break;
     case DIRECTION_COL:
         setGridRowDirection(row, (wxStrcmp(DIRPOSSTR, e.GetString()) ? DIR_NEG : DIR_POS));
@@ -147,7 +149,7 @@ void CatheterGrid::SetCommands(const std::vector<CatheterChannelCmdSet>& cmds)
 			cmdCount++;
 			if (rowIndex >= GetNumberRows()) addGridRow(false);
 			setGridRowChannel(rowIndex, cmds[i].commandList[j].channel);
-			setGridRowCurrentMA(rowIndex, cmds[i].commandList[j].currentMA);
+			setGridRowcurrentMilliAmp(rowIndex, cmds[i].commandList[j].currentMilliAmp);
 			
 			if ( j + 1 <  cmds[i].commandList.size())
 			{
@@ -185,12 +187,12 @@ void CatheterGrid::setGridRowChannel(int row, const wxString& channel) {
     }
 }
 
-void CatheterGrid::setGridRowCurrentMA(int row, double currentMA) {
+void CatheterGrid::setGridRowcurrentMilliAmp(int row, double currentMilliAmp) {
     if (isGridRowNumValid(row)) {
-        SetCellValue(wxGridCellCoords(row, CURRENT_COL), wxString::Format("%3.3f", currentMA));
-        if (currentMA > 0)
+        SetCellValue(wxGridCellCoords(row, CURRENT_COL), wxString::Format("%3.3f", currentMilliAmp));
+        if (currentMilliAmp > 0)
             setGridRowDirection(row, DIR_POS);
-        else if (currentMA < 0)
+        else if (currentMilliAmp < 0)
             setGridRowDirection(row, DIR_NEG);
     }
 }
@@ -200,13 +202,13 @@ void CatheterGrid::setGridRowDirection(int row, dir_t direction) {
         switch (direction) {
         case DIR_POS:
             SetCellValue(wxGridCellCoords(row, DIRECTION_COL), DIRPOSSTR);
-            if (!isGridCellEmpty(row, CURRENT_COL) && getGridRowCurrentMA(row) < 0)
-                setGridRowCurrentMA(row, getGridRowCurrentMA(row) * -1);
+            if (!isGridCellEmpty(row, CURRENT_COL) && getGridRowcurrentMilliAmp(row) < 0)
+                setGridRowcurrentMilliAmp(row, getGridRowcurrentMilliAmp(row) * -1);
             break;
         case DIR_NEG:
             SetCellValue(wxGridCellCoords(row, DIRECTION_COL), DIRNEGSTR);
-            if (!isGridCellEmpty(row, CURRENT_COL) && getGridRowCurrentMA(row) > 0)
-                setGridRowCurrentMA(row, getGridRowCurrentMA(row) * -1);
+            if (!isGridCellEmpty(row, CURRENT_COL) && getGridRowcurrentMilliAmp(row) > 0)
+                setGridRowcurrentMilliAmp(row, getGridRowcurrentMilliAmp(row) * -1);
             break;
         }
     }
@@ -228,7 +230,7 @@ int CatheterGrid::getGridRowChannel(int row) {
         return wxAtoi(channel);
 }
 
-double CatheterGrid::getGridRowCurrentMA(int row) {
+double CatheterGrid::getGridRowcurrentMilliAmp(int row) {
     return wxAtof(GetCellValue(wxGridCellCoords(row, CURRENT_COL)));
 }
 
@@ -248,7 +250,7 @@ int CatheterGrid::getGridRowDelayMS(int row) {
 long CatheterGrid::parseGridRow(int row, CatheterChannelCmd& c)
 {
     c.channel = getGridRowChannel(row);
-    c.currentMA = getGridRowCurrentMA(row);
+    c.currentMilliAmp = getGridRowcurrentMilliAmp(row);
     // @TODO add the poll entry...
 	c.poll = false;  
     return getGridRowDelayMS(row);
@@ -283,7 +285,7 @@ void CatheterGrid::addGridRow(bool readOnly) {
 
 void CatheterGrid::formatDefaultGrid(int nrows) {
     SetColLabelValue(CHANNEL_COL, wxT("Channel"));
-    SetColLabelValue(CURRENT_COL, wxT("Current (MA)"));
+    SetColLabelValue(CURRENT_COL, wxT("Current (mA)"));
     SetColLabelValue(DIRECTION_COL, wxT("Direction"));
     SetColLabelValue(DELAY_COL, wxT("Delay (ms)"));
     //HideRowLabels();

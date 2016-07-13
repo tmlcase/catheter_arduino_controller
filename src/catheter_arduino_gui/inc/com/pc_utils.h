@@ -3,11 +3,12 @@
  * defines methods, constants to be used only by the PC application
  */
 
+// The functions here seem important but another poorly scoped header file.
 
 #ifndef PC_UTILS_H
 #define PC_UTILS_H
 
-#include "common_utils.h"
+#include "com/catheter_commands.h"
 
 /** \brief int loadPlayFile(const char*,std::vector<CatheterChannelCmd> &): Loads and parses a playfile.
  * The playfile is a recorded vector of computed commands with inter command delay. */
