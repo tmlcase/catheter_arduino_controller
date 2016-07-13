@@ -21,7 +21,7 @@ public:
 
 	
 enum ThreadCmd {
-		noCmd = 0, resetArduino = -2, resetSerial = -1, connect, disconnect
+		noCmd = 0, resetArduino = -2, resetSerial = -1, poll  = 1, connect, disconnect
 	};
 enum ThreadStatus{
 		ready, error

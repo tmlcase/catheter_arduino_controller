@@ -77,6 +77,7 @@ struct CatheterPacket {
 };
 
 CatheterChannelCmdSet resetCmd();
+CatheterChannelCmdSet pollCmd();
 
 
 

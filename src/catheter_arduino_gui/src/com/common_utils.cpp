@@ -18,6 +18,16 @@ CatheterChannelCmdSet resetCmd()
 
 }
 
+CatheterChannelCmdSet pollCmd()
+{
+	CatheterChannelCmdSet pollCmdSet;
+	pollCmdSet.commandList.push_back(CatheterChannelCmd());
+	pollCmdSet.commandList[0].poll = true;
+	pollCmdSet.commandList[0].channel = 0;
+	return pollCmdSet;
+
+}
+
 void get_current_constants_by_channel(double* m, double* b, int chan, bool revG, bool set1) {
 	if (revG) {
 		*m = 12.8;

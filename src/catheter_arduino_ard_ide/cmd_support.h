@@ -45,7 +45,7 @@ uint8_t compactCmdResponse(const channelStatus& local_, bool update) {
 
 
 //This function processes a single channel for the arduino.
-int processSingleChannel(int i, uint8_t cmdVal, uint16_t cmdData, uint8_t *responseBytes, uint8_t *responseIndex)
+uint8_t processSingleChannel(int i, uint8_t cmdVal, uint16_t cmdData, uint8_t *responseBytes, uint8_t *responseIndex)
 {
   bool poll = (cmdVal >> 3) & 1;
   bool en = (cmdVal >> 2) & 1;
