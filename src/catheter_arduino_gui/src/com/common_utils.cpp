@@ -233,7 +233,7 @@ CatheterChannelCmd expandCommandBytes(const std::vector<uint8_t>& cmdBytes, int 
 	if (poll)
 	{
 		result.poll = true;
-		uint16_t adcData((static_cast<uint16_t> (cmdBytes[index]) << 4) + (cmdBytes[index+1] >> 4));
+		uint16_t adcData((static_cast<uint16_t> (cmdBytes[index]) << 8) + (cmdBytes[index+1]));
 		//convert adc bits to a double.
 		result.currentMA_ADC = convert_current_by_channel_res2ma(static_cast<int> (adcData), dir, result.channel);
 		index += 2;
