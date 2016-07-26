@@ -16,7 +16,7 @@
 
 #include "gui/status_frame.h"
 
-
+//This file defines the gui layout
 
 class CatheterGuiFrame : public wxFrame {
 public:
