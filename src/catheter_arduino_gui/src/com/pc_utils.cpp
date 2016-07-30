@@ -33,7 +33,7 @@ int loadPlayFile(const char* fileIn, std::vector<CatheterChannelCmdSet>& outputC
 
         size_t posOcto1  = line.find ("#"); // line comment
         size_t posComma1 = line.find (","); // after channel, before current
-        size_t posComma2 = line.find (",", posComma1 + 1); // after current (MA), before delay (MS)
+        size_t posComma2 = line.find (",", posComma1 + 1); // after current (MilliAmp), before delay (MilliSec)
 
         //verify the line's validity.
         if((posComma1 < posComma2) && (posComma2 < posOcto1)) {  //line is ok.
@@ -48,9 +48,9 @@ int loadPlayFile(const char* fileIn, std::vector<CatheterChannelCmdSet>& outputC
             if(!(channelIn >= 0 && channelIn <= NCHANNELS)) continue;   // bad channel; skip line
             singleCmd.channel = channelIn;
 
-            /* parse current data, given in MA */
+            /* parse current data, given in MilliAamp */
             getline (linestream, item, ',');
-            singleCmd.currentMA = atof(item.c_str());
+            singleCmd.currentMilliAmp = atof(item.c_str());
 
             singleCmd.poll = false;
 
@@ -83,7 +83,7 @@ bool writePlayFile(const char * fname, const std::vector<CatheterChannelCmdSet>&
 		for ( int j(0); j < cmdVect[i].commandList.size(); j++)
 		{
 			cmd = cmdVect[i].commandList[j];
-			outFile << cmd.channel << ", " << cmd.currentMA << ", ";
+			outFile << cmd.channel << ", " << cmd.currentMilliAmp << ", ";
 			if ( (j+1) < cmdVect[i].commandList.size())
 			{
 				outFile << 0 << std::endl;
@@ -119,7 +119,7 @@ void summarizeCmd(const CatheterChannelCmd& cmd) {
     printf("enable: %d\n", enable);
     printf("update: %d\n", update);
     printf("dir: %d\n", dir);
-    printf("current (MA): %3.3f\n", cmd.currentMA);
+    printf("current (MilliAmp): %3.3f\n", cmd.currentMilliAmp); //edit 7/30, replace "current (MA)" w/ current (MilliAmp)
 }
 
 void print_string_as_bits(int len, std::string bytes) {

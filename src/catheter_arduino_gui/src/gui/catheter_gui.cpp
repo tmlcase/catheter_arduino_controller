@@ -330,5 +330,5 @@ void CatheterGuiFrame::wxSummarizeCmds(const std::vector<CatheterChannelCmd> &cm
 
 wxString CatheterGuiFrame::wxToString(const CatheterChannelCmd &cmd)
 {
-    return wxString::Format("channel: %d\ncurrent: %3.3f\n", cmd.channel, cmd.currentMA);
+    return wxString::Format("channel: %d\ncurrent: %3.3f\n", cmd.channel, cmd.currentMilliAmp);
 }
