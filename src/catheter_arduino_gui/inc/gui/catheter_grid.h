@@ -11,6 +11,8 @@
 
 #include "com/common_utils.h"
 
+// This file defines the grid in which commands are entered and run.
+
 class CatheterGrid : public wxGrid {
     public:
     CatheterGrid(wxPanel* parent);

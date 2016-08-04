@@ -9,7 +9,7 @@
 #include "gui/status_frame.h"
 
 
-// This class acts a thread manager for offloading the serial communication.
+// This class acts a thread manager for offloading the serial communication. (high-level)
 // Prevents gui hangs.
 class SerialThreadObject
 {

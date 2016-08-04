@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 
+//This file defines a bunch of odds and ends and should be better named and moved.
 
 /* number of channels being used */
 #define NCHANNELS 6 

@@ -6,11 +6,12 @@
 /*  read a 12-bit value from the MCP3201 ADC on a specified channel (0 through NCHANNELS-1) */
 uint16_t ADC_read(int channel) {
     digitalWrite(ADC_CS_pins[channel], CS_EN);
-    byte b1 = SPI.transfer(0x00);
-    byte b2 = SPI.transfer(0x00);      
-    digitalWrite(ADC_CS_pins[channel], !CS_EN);   
-    uint16_t ret = ((b1 << 8) | b2);   //combine the bytes and get rid of blank first bit
-    return ret;
+    uint16_t ret1(SPI.transfer16(0x0000)); 
+    //uint16_t ret2(SPI.transfer16(0x0000)); 
+    digitalWrite(ADC_CS_pins[channel], !CS_EN);
+    //if( ((ret >> 12) & 0x01)) return uint16_t(0); 
+    uint16_t retO(ret1 >> 1);
+    return retO;
 }
 
 /*  write a 12-bit value to the MCP4921 DAC on a specified channel (0 through NCHANNELS-1) */

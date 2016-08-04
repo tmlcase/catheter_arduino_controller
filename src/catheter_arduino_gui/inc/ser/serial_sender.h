@@ -13,6 +13,7 @@
 #define PAD_CMDS false
 #define MAX_PAUSE_MS 2000 //ms to wait maximum before declaring timeout, i.e. for sending reset
 
+// This file defines the serial port interface. (mid-level)
 
 class CatheterSerialSender {
 private:

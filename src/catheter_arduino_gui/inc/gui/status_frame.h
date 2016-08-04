@@ -11,6 +11,7 @@
 
 // This files defines the display class which shows the current status of individual
 // catheter channels. (ADC and DAC)
+// This is the status frame.
 
 class StatusGrid: public wxFlexGridSizer
 {
