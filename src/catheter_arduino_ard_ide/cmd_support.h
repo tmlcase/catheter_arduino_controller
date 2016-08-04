@@ -68,8 +68,8 @@ uint8_t processSingleChannel(int i, uint8_t cmdVal, uint16_t cmdData, uint8_t *r
     responseBytes[*responseIndex] = response;  // channel number and channel commands
     responseBytes[*responseIndex+1] = DACU;    // DAC upper 6 bits
     responseBytes[*responseIndex+2] = DACL;    // DAC lower 6 bits
-    responseBytes[*responseIndex+3] = (uint8_t) (0b00111111 & (ADCm >> 6)); // ADC upper 6 bits
-    responseBytes[*responseIndex+4] = (uint8_t) (0b00111111 & ADCm);         // ADC lower 6 bits
+    responseBytes[*responseIndex+3] = (uint8_t) (ADCm >> 8); // ADC upper 6 bits
+    responseBytes[*responseIndex+4] = (uint8_t) (ADCm & 0b11111111);         // ADC lower 6 bits
     *responseIndex += 5;
 	return 1;
   } // if(poll)

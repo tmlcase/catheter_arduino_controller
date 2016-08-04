@@ -9,7 +9,7 @@ uint16_t ADC_read(int channel) {
     byte b1 = SPI.transfer(0x00);
     byte b2 = SPI.transfer(0x00);      
     digitalWrite(ADC_CS_pins[channel], !CS_EN);   
-    uint16_t ret = ((b1 << 8) | b2) >> 1;   //combine the bytes and get rid of blank first bit
+    uint16_t ret = ((b1 << 8) | b2);   //combine the bytes and get rid of blank first bit
     return ret;
 }
 
