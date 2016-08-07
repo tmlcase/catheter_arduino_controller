@@ -192,7 +192,7 @@ bool CatheterSerialSender::sendReset() {
 	if (packets_ok) {
 		int cmdptr = 0;
 		for (int i = 0; i < cmds.size(); i++) {		
-			packets_ok = packets_ok && (abs(cmds[i].currentMA - cmdsReturned[i].currentMA) < 1); // 1 mA rounding error? 
+			packets_ok = packets_ok && (abs(cmds[i].currentMilliAmp - cmdsReturned[i].currentMilliAmp) < 1); // 1 mA rounding error? 
 		}
 	}
 

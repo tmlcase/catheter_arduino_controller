@@ -65,7 +65,7 @@ int cmd_parse(const uint8_t* charBuffer, uint8_t bufferLength, uint8_t cmdCount,
   }
   // finish encoding the response...
   outputBytes[0] = 128 + 64 + (packetIndex & 15);   // 1st preamble (ok and packet index)
-  outputBytes[1] = (responses << 4) + (pollCount & 16); // 2nd preamble (There could be some overflow here).
+  outputBytes[1] = (responses << 4) + (pollCount & 15); // 2nd preamble (There could be some overflow here).
   outputBytes[outputIndex] = fletcher8(outputIndex, outputBytes);
   outputIndex++;
   return outputIndex;

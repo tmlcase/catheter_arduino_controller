@@ -16,7 +16,7 @@
 
 #include "gui/status_frame.h"
 
-
+//This file defines the gui layout
 
 class CatheterGuiFrame : public wxFrame {
 public:
@@ -31,7 +31,7 @@ public:
     void OnSavePlayfileButtonClicked(wxCommandEvent& e);
     void OnSendCommandsButtonClicked(wxCommandEvent& e);
     void OnSendResetButtonClicked(wxCommandEvent& e);
-
+	void OnSendPollButtonClicked(wxCommandEvent& e);
 
     enum {
         ID_SELECT_PLAYFILE_BUTTON = 1024,
@@ -39,7 +39,8 @@ public:
         ID_SAVE_PLAYFILE_BUTTON,
         ID_SEND_COMMANDS_BUTTON,
         ID_SEND_RESET_BUTTON, 
-        ID_REFRESH_SERIAL_BUTTON
+        ID_REFRESH_SERIAL_BUTTON,
+		ID_SEND_POLL_BUTTON
     };
 
     wxDECLARE_EVENT_TABLE();
@@ -58,6 +59,7 @@ private:
     bool sendCommands(const std::vector<CatheterChannelCmdSet> &cmdVect);
     bool sendGridCommands();
     bool sendResetCommand();
+	bool sendPollCommand();
     bool refreshSerialConnection();
     bool closeSerialConnection();
     wxString wxToString(const CatheterChannelCmd &cmd);
@@ -79,6 +81,7 @@ private:
     wxButton* savePlayfileButton;
     wxButton* sendCommandsButton;
     wxButton* sendResetButton;
+	wxButton* pollButton;
     wxButton* refreshSerialButton;
     bool playfileSaved;
     wxString playfilePath;
