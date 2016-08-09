@@ -45,7 +45,7 @@ uint8_t compactCmdResponse(const channelStatus& local_, bool update) {
 
 
 //This function processes a single channel for the arduino.
-int processSingleChannel(int i, uint8_t cmdVal, uint16_t cmdData, uint8_t *responseBytes, uint8_t *responseIndex)
+uint8_t processSingleChannel(int i, uint8_t cmdVal, uint16_t cmdData, uint8_t *responseBytes, uint8_t *responseIndex)
 {
   bool poll = (cmdVal >> 3) & 1;
   bool en = (cmdVal >> 2) & 1;
@@ -68,8 +68,8 @@ int processSingleChannel(int i, uint8_t cmdVal, uint16_t cmdData, uint8_t *respo
     responseBytes[*responseIndex] = response;  // channel number and channel commands
     responseBytes[*responseIndex+1] = DACU;    // DAC upper 6 bits
     responseBytes[*responseIndex+2] = DACL;    // DAC lower 6 bits
-    responseBytes[*responseIndex+3] = (uint8_t) (0b00111111 & (ADCm >> 6)); // ADC upper 6 bits
-    responseBytes[*responseIndex+4] = (uint8_t) (0b00111111 & ADCm);         // ADC lower 6 bits
+    responseBytes[*responseIndex+3] = (uint8_t) ((ADCm >> 8)); // ADC upper 6 bits
+    responseBytes[*responseIndex+4] = (uint8_t) (0b11111111 & ADCm);         // ADC lower 6 bits
     *responseIndex += 5;
 	return 1;
   } // if(poll)

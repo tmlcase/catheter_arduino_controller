@@ -3,6 +3,7 @@
  * defines methods, constants to be used only by the PC application
  */
 
+// The functions here seem important but another poorly scoped header file.
 
 #ifndef PC_UTILS_H
 #define PC_UTILS_H

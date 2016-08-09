@@ -9,7 +9,7 @@
 #include "gui/status_frame.h"
 
 
-// This class acts a thread manager for offloading the serial communication.
+// This class acts a thread manager for offloading the serial communication. (high-level)
 // Prevents gui hangs.
 class SerialThreadObject
 {
@@ -21,7 +21,7 @@ public:
 
 	
 enum ThreadCmd {
-		noCmd = 0, resetArduino = -2, resetSerial = -1, connect, disconnect
+		noCmd = 0, resetArduino = -2, resetSerial = -1, poll  = 1, connect, disconnect
 	};
 enum ThreadStatus{
 		ready, error

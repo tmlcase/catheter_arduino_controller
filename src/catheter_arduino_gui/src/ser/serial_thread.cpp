@@ -54,14 +54,15 @@ void SerialThreadObject::serialLoop()
 		{
 			boost::posix_time::time_duration diff(boost::posix_time::microsec_clock::local_time() - t1);
 			delayCount++;
-			if ((diff.total_nanoseconds()) > delay)
+			int64_t diffAmt(diff.total_nanoseconds());
+			if (diffAmt > delay)
 			{
 				// send the first command
 				t1 = boost::posix_time::microsec_clock::local_time();
 				boost::mutex::scoped_lock lock(threadMutex);
 				ss->sendCommand(commandsToArd[0],cmdIndex);
 				delayCount = 0 ;
-				delay = commandsToArd[0].delayTime*10000;
+				delay = commandsToArd[0].delayTime*1000000;
 				commandsToArd.erase(commandsToArd.begin());
 				
 				lock.unlock();
@@ -153,7 +154,10 @@ void SerialThreadObject::serialCommand(const ThreadCmd& incomingCommand)
 			case disconnect:
 				//disconnect from the arduino
 			break;
-			
+			case poll:
+				commandsToArd.clear();
+				commandsToArd.push_back(pollCmd());
+			break;
 			default:
 				if(textStatus != NULL)
 				{

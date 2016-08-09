@@ -13,6 +13,8 @@
 #include <vector>
 #include <time.h>
 
+// This file defines the low level serial interface.
+
 typedef boost::shared_ptr<boost::asio::serial_port> serial_port_ptr;
  
 #define SERIAL_PORT_READ_BUF_SIZE 256
