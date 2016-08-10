@@ -41,11 +41,11 @@ class CatheterGrid : public wxGrid {
     void addGridRow(bool readOnly);
     void setGridRowChannel(int row, int channel);
     void setGridRowChannel(int row, const wxString& channel);
-    void setGridRowCurrentMA(int row, double currentMA);
+    void setGridRowcurrentMilliAmp(int row, double currentMilliAmp);
     void setGridRowDirection(int row, dir_t direction);
     void setGridRowDelayMS(int row, int delayMS);
     int getGridRowChannel(int row);
-    double getGridRowCurrentMA(int row);
+    double getGridRowcurrentMilliAmp(int row);
     dir_t getGridRowDirection(int row);
     int getGridRowDelayMS(int row);
 

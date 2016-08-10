@@ -58,9 +58,9 @@ struct CatheterChannelCmd {
 	int channel;
     bool poll;
 	bool enable;
-	double currentMA;
-	double currentMA_ADC;
-	CatheterChannelCmd() : channel(0), poll(false), currentMA(0), currentMA_ADC(0) {}
+	double currentMilliAmp;
+	double currentMilliAmp_ADC;
+	CatheterChannelCmd() : channel(0), poll(false), currentMilliAmp(0), currentMilliAmp_ADC(0) {}
 };
 
 // parsed into a full packet
@@ -148,7 +148,7 @@ void getPacketBytes(const int& pseqnum, const std::vector<CatheterChannelCmd>& c
 /** \brief bool parseBytes2Cmds(const std::vector<unsigned char>& reply, std::vector<CatheterChannelCmd>& cmds): 
     validates returned bytes for a packet containing commands for all channels and
     returns the channel data parsesd from the return values (or -1 on error) 
-    NB: the currentMA field is filled with DAC RES data! */
+    NB: the currentMilliAmp field is filled with DAC RES data! */
 comStatus parseBytes2Cmds(std::vector<unsigned char>& reply, std::vector<CatheterChannelCmd>& cmds);
 
 // Parse the preamble.

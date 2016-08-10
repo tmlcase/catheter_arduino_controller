@@ -108,8 +108,8 @@ uint8_t compactCmdVal(const bool &poll, const bool &en, const bool &update, cons
 CatheterChannelCmd emptyCommand() {
 	CatheterChannelCmd cmd;
 	cmd.channel = 0;
-	cmd.currentMA = 0;
-	cmd.currentMA_ADC = 0;
+	cmd.currentMilliAmp = 0;
+	cmd.currentMilliAmp_ADC = 0;
 	cmd.poll = false;
 	return cmd;
 }
@@ -117,8 +117,8 @@ CatheterChannelCmd emptyCommand() {
 CatheterChannelCmd resetCommand() {
 	CatheterChannelCmd cmd;
 	cmd.channel = 0; //global
-	cmd.currentMA = 0;
-	cmd.currentMA_ADC = 0;
+	cmd.currentMilliAmp = 0;
+	cmd.currentMilliAmp_ADC = 0;
 	cmd.poll = false;
 	return cmd;
 }
@@ -142,16 +142,16 @@ void expandCmdVal(const uint8_t &cmdVal, bool* poll, bool* en, bool* update, dir
 }
 
 void expandCatheterCmd(const CatheterChannelCmd& cmd, bool* enable, bool* update, dir_t* dir) {
-    *enable = (cmd.currentMA != 0);
+    *enable = (cmd.currentMilliAmp != 0);
     *update = true;
-    *dir = (cmd.currentMA < 0 ? DIR_NEG : DIR_POS);
+    *dir = (cmd.currentMilliAmp < 0 ? DIR_NEG : DIR_POS);
 }
 
 void compactCatheterCmd(const CatheterChannelCmd& cmd, unsigned int* cmd4, unsigned int* data12) {
-    *data12 = convert_current_by_channel_ma2res(cmd.currentMA, cmd.channel);
-	if (cmd.currentMA > 0) 
+    *data12 = convert_current_by_channel_ma2res(cmd.currentMilliAmp, cmd.channel);
+	if (cmd.currentMilliAmp > 0) 
 		*cmd4 = compactCmdVal(cmd.poll, true, true, DIR_POS);
-	else if (cmd.currentMA < 0)
+	else if (cmd.currentMilliAmp < 0)
 		*cmd4 = compactCmdVal(cmd.poll, true, true, DIR_NEG); 
 	else
 		*cmd4 = compactCmdVal(cmd.poll, false, true, DIR_POS);
@@ -226,7 +226,7 @@ CatheterChannelCmd expandCommandBytes(const std::vector<uint8_t>& cmdBytes, int 
 	uint16_t cmdData(((uint16_t)(cmdBytes[index+1]) << 6) + (cmdBytes[index+2] % 64));
 
 	//convert the dac value to a double.
-	result.currentMA = convert_current_by_channel_res2ma(static_cast<int> (cmdData), dir, result.channel);
+	result.currentMilliAmp = convert_current_by_channel_res2ma(static_cast<int> (cmdData), dir, result.channel);
 	
 	index += 3;
 	// If the Poll bit is true, pull off the adc value
@@ -235,7 +235,7 @@ CatheterChannelCmd expandCommandBytes(const std::vector<uint8_t>& cmdBytes, int 
 		result.poll = true;
 		uint16_t adcData((static_cast<uint16_t> (cmdBytes[index]) << 8) + (cmdBytes[index+1]));
 		//convert adc bits to a double.
-		result.currentMA_ADC = convert_current_by_channel_res2ma(static_cast<int> (adcData), dir, result.channel);
+		result.currentMilliAmp_ADC = convert_current_by_channel_res2ma(static_cast<int> (adcData), dir, result.channel);
 		index += 2;
 	}
 	return result;
@@ -327,7 +327,7 @@ bool parseBytes2Cmds(const std::vector<unsigned char>& reply, std::vector<Cathet
 				if (packet_ok) {
 					data += (nextByte & 63);
 					CatheterChannelCmd c = emptyCommand();
-					c.currentMA = data; // this is dac resolution! convert this in the calling method!
+					c.currentMilliAmp = data; // this is dac resolution! convert this in the calling method!
 					cmds.push_back(c);
 				}
 				break;
@@ -402,13 +402,13 @@ comStatus parseBytes2Cmds(std::vector<unsigned char>& bytesRead, std::vector<Cat
 		
 		cmd = emptyCommand();
 		cmd.channel = chan;
-		cmd.currentMA = convert_current_by_channel_res2ma(dac_data, dir, chan);
+		cmd.currentMilliAmp = convert_current_by_channel_res2ma(dac_data, dir, chan);
 		cmd.poll = poll;
 		
 		if (poll) {
 			adc_data = (bytesRead[rindex] << 4) + (bytesRead[rindex + 1] >> 4);
 			rindex += 2;
-			cmd.currentMA_ADC = convert_current_by_channel_res2ma(adc_data, dir, chan);
+			cmd.currentMilliAmp_ADC = convert_current_by_channel_res2ma(adc_data, dir, chan);
 		}
 		
 		cmds.push_back(cmd);

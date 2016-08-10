@@ -50,8 +50,8 @@ void StatusGrid::updateStatus(const std::vector<CatheterChannelCmd> & inputComma
 	{
 		int channelNum(inputCommands[index].channel);
 		int baseIndex(((channelNum-1) << 2));
-		textCtrl[baseIndex+1]->SetValue(wxString::Format(wxT("%f"), inputCommands[index].currentMA));
-		textCtrl[baseIndex+2]->SetValue(wxString::Format(wxT("%f"), inputCommands[index].currentMA_ADC));
+		textCtrl[baseIndex+1]->SetValue(wxString::Format(wxT("%f"), inputCommands[index].currentMilliAmp));
+		textCtrl[baseIndex+2]->SetValue(wxString::Format(wxT("%f"), inputCommands[index].currentMilliAmp_ADC));
 		if (inputCommands[index].enable)
 		{
 			textCtrl[baseIndex+3]->SetValue(wxT("true"));
