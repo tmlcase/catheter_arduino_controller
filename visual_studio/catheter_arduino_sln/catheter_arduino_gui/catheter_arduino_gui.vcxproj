@@ -28,6 +28,7 @@
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\gui\catheter_gui.h" />
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\gui\status_frame.h" />
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\gui\status_text.h" />
+    <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\hardware\digital_analog_conversions.h" />
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\ser\serial_sender.h" />
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\ser\serial_thread.h" />
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\ser\simple_serial.h" />
@@ -39,6 +40,7 @@
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\gui\catheter_gui.cpp" />
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\gui\status_frame.cpp" />
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\gui\status_text.cpp" />
+    <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\hardware\digital_analog_conversions.cpp" />
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\ser\serial_sender.cpp" />
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\ser\serial_thread.cpp" />
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\ser\simple_serial.cpp" />

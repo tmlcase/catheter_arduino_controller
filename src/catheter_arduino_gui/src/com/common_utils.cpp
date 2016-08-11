@@ -1,4 +1,6 @@
 #include "com/common_utils.h"
+#include "hardware/digital_analog_conversions.h"
+
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -28,73 +30,6 @@ CatheterChannelCmdSet pollCmd()
 
 }
 
-void get_current_constants_by_channel(double* m, double* b, int chan, bool revG, bool set1) {
-	if (revG) {
-		*m = 12.8;
-		*b = 0;
-		switch (chan) {
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		}
-	} else {
-		switch (chan) {
-		case 1: //may wish to define constants...
-			if (set1) { //for currents below 10 mA
-				*m = -29.07;
-				*b = 4058;
-			} else {
-				*m = -16.30;
-				*b = 3896;
-			}
-			break;
-		case 2:
-			if (set1) { //for currents below 10 mA
-				*m = -28.99;
-				*b = 4096;
-			} else {
-				*m = -16.48;
-				*b = 3939;
-			}
-			break;
-		case 3:
-			if (set1) { //for currents below 10 mA
-				*m = -36.76;
-				*b = 4040;
-			} else {
-				*m = -15.78;
-				*b = 3837;
-			}
-			break;
-		}
-	}
-}
-
-unsigned int convert_current_by_channel_ma2res(double ma, int chan) {    
-    if (ma == 0) return DAC_RES_OFF;    
-    if (ma < 0) ma = ma * -1;
-    unsigned int res;
-    double m, b;
-    bool set1 = (ma <= 10);
-	get_current_constants_by_channel(&m, &b, chan);
-    res = (int)(m*ma + b);
-    if (res < 0) res = 0;
-    else if (res >= DAC_RES) res = DAC_RES - 1;
-    return res;
-}
-
-double convert_current_by_channel_res2ma(int res, dir_t dir, int chan) {
-    double ma;
-    double m, b;
-    bool set1 = (res >= 4000);
-	get_current_constants_by_channel(&m, &b, chan);
-    ma = (res - b)/m;
-    if (dir == DIR_NEG) ma = -ma;
-    return ma;
-}
 
 uint8_t compactCmdVal(const bool &poll, const bool &en, const bool &update, const dir_t &dir) {
     uint8_t cmd = 0;
@@ -147,8 +82,9 @@ void expandCatheterCmd(const CatheterChannelCmd& cmd, bool* enable, bool* update
     *dir = (cmd.currentMilliAmp < 0 ? DIR_NEG : DIR_POS);
 }
 
-void compactCatheterCmd(const CatheterChannelCmd& cmd, unsigned int* cmd4, unsigned int* data12) {
-    *data12 = convert_current_by_channel_ma2res(cmd.currentMilliAmp, cmd.channel);
+void compactCatheterCmd(const CatheterChannelCmd& cmd, uint8_t* cmd4, uint16_t* data12)
+{
+    *data12 = milliAmp2Dac(cmd.currentMilliAmp);
 	if (cmd.currentMilliAmp > 0) 
 		*cmd4 = compactCmdVal(cmd.poll, true, true, DIR_POS);
 	else if (cmd.currentMilliAmp < 0)
@@ -190,8 +126,8 @@ std::vector<uint8_t> compactPreambleBytes(const int &pseqnum, const int &ncmds) 
 std::vector<uint8_t> compactCommandBytes(const CatheterChannelCmd& cmd) {
     std::vector<uint8_t> bytes;
     
-    unsigned int data12;
-    unsigned int cmd4;
+    uint16_t data12;
+    uint8_t cmd4;
     compactCatheterCmd(cmd, &cmd4, &data12);    
     
     int i;
@@ -226,7 +162,7 @@ CatheterChannelCmd expandCommandBytes(const std::vector<uint8_t>& cmdBytes, int 
 	uint16_t cmdData(((uint16_t)(cmdBytes[index+1]) << 6) + (cmdBytes[index+2] % 64));
 
 	//convert the dac value to a double.
-	result.currentMilliAmp = convert_current_by_channel_res2ma(static_cast<int> (cmdData), dir, result.channel);
+	result.currentMilliAmp = dac2MilliAmp(cmdData, dir);
 	
 	index += 3;
 	// If the Poll bit is true, pull off the adc value
@@ -235,7 +171,7 @@ CatheterChannelCmd expandCommandBytes(const std::vector<uint8_t>& cmdBytes, int 
 		result.poll = true;
 		uint16_t adcData((static_cast<uint16_t> (cmdBytes[index]) << 8) + (cmdBytes[index+1]));
 		//convert adc bits to a double.
-		result.currentMilliAmp_ADC = convert_current_by_channel_res2ma(static_cast<int> (adcData), dir, result.channel);
+		result.currentMilliAmp_ADC = adc2MilliAmp(adcData);
 		index += 2;
 	}
 	return result;

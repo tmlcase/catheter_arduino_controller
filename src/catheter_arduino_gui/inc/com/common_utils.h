@@ -81,11 +81,6 @@ CatheterChannelCmdSet resetCmd();
 CatheterChannelCmdSet pollCmd();
 
 
-
-///////////////////////
-// "private" methods //
-///////////////////////
-
 /** \brief uint8_t compactCmdVal(int poll, int en, int update, dir_t dir): 
     return the command number (0-15) associated with the specified state */
 uint8_t compactCmdVal(const bool &poll, const bool &en, const bool &update, const dir_t &dir);
@@ -96,7 +91,7 @@ void expandCmdVal(const uint8_t &cmdVal, bool* poll, bool* en, bool* update, dir
 
 /** \brief void compactCatheterCmd(CatheterChannelCmd& cmd, unsigned int* cmd4, unsigned int* data12): 
     extract the 12-bit DAC data and 4-bit command value from a CatheterChannelCmd */
-void compactCatheterCmd(const CatheterChannelCmd& cmd, unsigned int* cmd4, unsigned int* data12);
+void compactCatheterCmd(const CatheterChannelCmd& cmd, uint8_t* cmd4, uint16_t* data12);
 
 /** \brief void expandCatheterCmd(CatheterChannelCmd& cmd, bool* enable, bool* update, dir_t* dir): 
     extract the semantic command bit values from a CatheterChannelCmd */
@@ -160,15 +155,5 @@ CatheterChannelCmd emptyCommand();
 CatheterChannelCmd resetCommand();
 /** \brief std::vector<uint8_t> resetCommandBytes(): generate the bytes for a global reset command */
 std::vector<uint8_t> resetCommandBytes();
-
-/** \brief void get_current_constants_by_channel(double* m, double* y, int chan, bool revG = true, bool set1 = false):
-	return the slope and y-intercept for the current conversion function for a given channel. Different operation depending
-	on whether we are using version >= revision G. bool set1 only applies if using version < revision G, and is for current values
-	less than 10 milliamps. */
-void get_current_constants_by_channel(double* m, double* y, int chan, bool revG = true, bool set1 = false);
-/** \brief unsigned int convert_current_by_channel(double ma, int chan): return the DAC resolution associated with a milliamp current */
-unsigned int convert_current_by_channel_ma2res(double ma, int chan);
-/** \brief double convert_current_by_channel(int res, dir_t dir, int chan): return the milliamp current associated witha DAC resolution */
-double convert_current_by_channel_res2ma(int res, dir_t dir, int chan);
 
 #endif
