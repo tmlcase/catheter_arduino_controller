@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <cstdlib>
-#include "com/common_utils.h"
+#include "com/catheter_commands.h"
 
 // This file declares the functions capable of converting byte data to analog current
 // I.E. ADC data to mA and mA to DAC data.

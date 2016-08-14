@@ -47,7 +47,7 @@ bool SerialPort::start(const char *com_port_name, Baud baud_rate) {
 		port_->set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none), ec);
 		port_->set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::none), ec);
 
-		//this thread may need to be joined during destructor...
+		// this thread may need to be joined during destructor...
 		 t = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service_));
 
 		async_read_some_();

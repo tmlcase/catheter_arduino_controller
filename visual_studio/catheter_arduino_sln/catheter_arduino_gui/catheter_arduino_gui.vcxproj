@@ -22,7 +22,8 @@
     <None Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\com\common_utils.h" />
+    <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\com\catheter_commands.h" />
+    <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\com\communication_definitions.h" />
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\com\pc_utils.h" />
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\gui\catheter_grid.h" />
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\gui\catheter_gui.h" />
@@ -34,7 +35,7 @@
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\ser\simple_serial.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\com\common_utils.cpp" />
+    <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\com\catheter_commands.cpp" />
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\com\pc_utils.cpp" />
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\gui\catheter_grid.cpp" />
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\gui\catheter_gui.cpp" />

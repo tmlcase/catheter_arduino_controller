@@ -9,7 +9,8 @@
 #include "wx/generic/grideditors.h"
 #include <vector>
 
-#include "com/common_utils.h"
+#include "com\communication_definitions.h"
+#include "com\catheter_commands.h"
 
 // This file defines the grid in which commands are entered and run.
 
