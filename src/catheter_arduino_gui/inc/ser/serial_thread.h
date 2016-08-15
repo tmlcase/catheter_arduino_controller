@@ -4,6 +4,7 @@
 
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
+#include "com/catheter_commands.h"
 #include "ser/serial_sender.h"
 #include "gui/status_text.h"
 #include "gui/status_frame.h"
@@ -67,11 +68,16 @@ private:
 
 	bool connected;
 
-    // serial connection
+    // serial port
     CatheterSerialSender* ss;
+	//SerialPort *sp;
+	//std::string port_name;
 
-    //
+
+    // data to send to arduino.
 	std::vector< CatheterChannelCmdSet > commandsToArd;
+
+	// reply from arduino.
 	CatheterChannelCmdSet commandFromArd;
 
 

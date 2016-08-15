@@ -15,9 +15,6 @@
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\com\pc_utils.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\com\common_utils.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\ser\simple_serial.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -39,11 +36,17 @@
     <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\gui\status_frame.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\hardware\digital_analog_conversions.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\com\communication_definitions.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\catheter_arduino_gui\inc\com\catheter_commands.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\com\common_utils.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\com\pc_utils.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -66,6 +69,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\gui\status_frame.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\hardware\digital_analog_conversions.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\catheter_arduino_gui\src\com\catheter_commands.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

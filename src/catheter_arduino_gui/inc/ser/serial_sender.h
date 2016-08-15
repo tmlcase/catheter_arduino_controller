@@ -8,7 +8,8 @@
 #include <string>
 
 #include "ser/simple_serial.h"
-#include "com/common_utils.h"
+#include "com/catheter_commands.h"
+
 
 #define PAD_CMDS false
 #define MAX_PAUSE_MS 2000 //ms to wait maximum before declaring timeout, i.e. for sending reset

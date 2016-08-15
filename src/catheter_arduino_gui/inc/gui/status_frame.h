@@ -6,7 +6,7 @@
 
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
-#include "com/common_utils.h"
+#include "com/catheter_commands.h"
 
 
 // This files defines the display class which shows the current status of individual

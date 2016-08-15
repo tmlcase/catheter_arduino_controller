@@ -1,4 +1,4 @@
-#include "com/pc_utils.h"
+#include "com/catheter_commands.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -107,41 +107,4 @@ bool writeBytes(const char *fname, const std::vector<uint8_t>& bytes) {
 	}
 	fclose(f);
 	return true;
-}
-
-void summarizeCmd(const CatheterChannelCmd& cmd) {
-    bool enable;
-    bool update;
-    dir_t dir;
-    expandCatheterCmd(cmd, &enable, &update, &dir);
-    printf("channel: %d\n",cmd.channel);
-    printf("poll: %d\n", cmd.poll);
-    printf("enable: %d\n", enable);
-    printf("update: %d\n", update);
-    printf("dir: %d\n", dir);
-    printf("current (MilliAmp): %3.3f\n", cmd.currentMilliAmp); //edit 7/30, replace "current (MA)" w/ current (MilliAmp)
-}
-
-void print_string_as_bits(int len, std::string bytes) {
-    int i,j;
-    for (i=0; i<len; i++) {
-        for (j=7; j>=0; j--) {
-            if ((bytes[i] & (1<<j)))  printf("1");
-            else  printf("0");
-        }
-        printf(" ");
-    }
-    printf("\n");
-}
-
-void print_bytes_as_bits(int len, std::vector<uint8_t> bytes) {
-    int i,j;
-    for (i=0; i<len; i++) {
-        for (j=7; j>=0; j--) {
-            if ((bytes[i] & (1<<j)))  printf("1");
-            else  printf("0");
-        }
-        printf(" ");
-    }
-    printf("\n");
 }
