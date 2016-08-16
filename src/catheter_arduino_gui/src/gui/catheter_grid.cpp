@@ -9,12 +9,14 @@
 #include "wx/generic/grideditors.h"
 
 #include "gui/catheter_grid.h"
-#include "com/common_utils.h"
+
 
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
 
 #include <vector>
+
+#include "com\communication_definitions.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>

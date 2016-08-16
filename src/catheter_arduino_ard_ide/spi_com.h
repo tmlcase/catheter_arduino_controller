@@ -10,8 +10,7 @@ uint16_t ADC_read(int channel) {
     //uint16_t ret2(SPI.transfer16(0x0000)); 
     digitalWrite(ADC_CS_pins[channel], !CS_EN);
     //if( ((ret >> 12) & 0x01)) return uint16_t(0); 
-    uint16_t retO(ret1 >> 1);
-    return retO;
+    return ret1;
 }
 
 /*  write a 12-bit value to the MCP4921 DAC on a specified channel (0 through NCHANNELS-1) */

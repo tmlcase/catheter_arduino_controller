@@ -10,7 +10,6 @@
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
 
-#include "com/common_utils.h"
 #include "gui/catheter_grid.h"
 #include "gui/status_text.h"
 
