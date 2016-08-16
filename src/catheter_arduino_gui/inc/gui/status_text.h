@@ -9,6 +9,19 @@
 
 // This file defines the status text box.
 
+struct incomingText
+{
+	boost::mutex textMutex;
+	std::string stringData;
+	bool update;
+
+	incomingText() : update(false)
+	{
+	};
+
+	void appendText(const std::string  &newText);
+};
+
 class CatheterStatusText : public wxScrolledWindow {
 public:
 	
@@ -16,7 +29,7 @@ public:
     explicit CatheterStatusText(wxWindow* parent, wxWindowID id);
 
     // public method to send text into the status box
-    bool addText(const std::string &incomingInfo);
+    bool addText(incomingText*);
 	bool addWxText(const wxString& msg);
 
 private:

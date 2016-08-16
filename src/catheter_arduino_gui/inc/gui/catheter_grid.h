@@ -13,6 +13,8 @@
 #include "com\catheter_commands.h"
 
 // This file defines the grid in which commands are entered and run.
+// This object does not require any threaded communication as it is only 
+// changed by the main thread.
 
 class CatheterGrid : public wxGrid {
     public:

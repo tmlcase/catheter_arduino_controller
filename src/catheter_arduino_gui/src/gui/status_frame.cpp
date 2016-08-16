@@ -43,26 +43,40 @@ StatusGrid::StatusGrid(wxPanel* parentPanel):
    
 }
 
-void StatusGrid::updateStatus(const std::vector<CatheterChannelCmd> & inputCommands)
+void StatusGrid::updateStatus(statusData* inputData)
 {
-	int cmdCount(inputCommands.size());
-	for (int index(0); index < cmdCount; index++)
+	
+	boost::mutex::scoped_lock lock(inputData->statusMutex);
+	if (inputData->updated)
 	{
-		int channelNum(inputCommands[index].channel);
-		int baseIndex(((channelNum-1) << 2));
-		textCtrl[baseIndex+1]->SetValue(wxString::Format(wxT("%f"), inputCommands[index].currentMilliAmp));
-		textCtrl[baseIndex+2]->SetValue(wxString::Format(wxT("%f"), inputCommands[index].currentMilliAmp_ADC));
-		if (inputCommands[index].enable)
+		int cmdCount(inputData->inputCommands.size());
+		for (int index(0); index < cmdCount; index++)
 		{
-			textCtrl[baseIndex+3]->SetValue(wxT("true"));
+			int channelNum(inputData->inputCommands[index].channel);
+			int baseIndex(((channelNum - 1) << 2));
+			textCtrl[baseIndex + 1]->SetValue(wxString::Format(wxT("%f"), inputData->inputCommands[index].currentMilliAmp));
+			textCtrl[baseIndex + 2]->SetValue(wxString::Format(wxT("%f"), inputData->inputCommands[index].currentMilliAmp_ADC));
+			if (inputData->inputCommands[index].enable)
+			{
+				textCtrl[baseIndex + 3]->SetValue(wxT("true"));
+			}
+			else
+			{
+				textCtrl[baseIndex + 3]->SetValue(wxT("false"));
+			}
 		}
-		else
-		{
-			textCtrl[baseIndex+3]->SetValue(wxT("false"));
-		}
+		inputData->updated = false;
 	}
-
 	return;
+}
+
+
+void statusData::updateCmdList(std::vector<CatheterChannelCmd> & inputCommands_)
+{
+	boost::mutex::scoped_lock lock(this->statusMutex);
+	this->inputCommands = inputCommands_;
+	this->updated = true;
+
 }
 
  /*  wxPanel *panel = new wxPanel(this, -1);

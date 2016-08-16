@@ -13,6 +13,22 @@
 // catheter channels. (ADC and DAC)
 // This is the status frame.
 
+// a shared object is included to avoid race conditions.
+struct statusData
+{
+	boost::mutex statusMutex;
+	std::vector<CatheterChannelCmd> inputCommands;
+	bool updated;
+
+	// update function.
+	void updateCmdList(std::vector<CatheterChannelCmd> & inputCommands);
+
+	statusData() : updated(false)
+	{};
+};
+
+
+
 class StatusGrid: public wxFlexGridSizer
 {
 
@@ -20,14 +36,14 @@ public:
 	 StatusGrid(wxPanel* parent);
     ~StatusGrid();
 
-    void updateStatus(const std::vector<CatheterChannelCmd> & inputCommands);
+    void updateStatus(statusData*);
 
-    void SetCommands(const std::vector<CatheterChannelCmdSet>& cmds);
-	void GetCommands(std::vector<CatheterChannelCmdSet>& cmds);
-    void ResetDefault();
+    // void SetCommands(const std::vector<CatheterChannelCmdSet>& cmds);
+	// void GetCommands(std::vector<CatheterChannelCmdSet>& cmds);
+    // void ResetDefault();
 
 private:
-	boost::mutex statusMutex;
+	
 
 	std::vector < wxTextCtrl* > textCtrl;
 
