@@ -153,7 +153,6 @@ CatheterChannelCmd parseSingleCommand(const std::vector<uint8_t>& cmdBytes, int 
 	// byte 1
 	result.channel = cmdBytes[index] >> 4;
 
-	bool poll(false), en(false), update(false);
 
 	//expandCmdVal(, &poll, &en, &update, &dir);
 	result.poll = (cmdBytes[index] >> POL_BIT) & 1;
@@ -164,7 +163,6 @@ CatheterChannelCmd parseSingleCommand(const std::vector<uint8_t>& cmdBytes, int 
 
 
 	// bytes 2 and 3 (last 4 bits reserved)
-	result.enable = en;
 	// pull off the DAC value:
 	uint16_t cmdData(((uint16_t)(cmdBytes[index + 1]) << 6) + (cmdBytes[index + 2] % 64));
 
@@ -173,10 +171,15 @@ CatheterChannelCmd parseSingleCommand(const std::vector<uint8_t>& cmdBytes, int 
 
 	index += 3;
 	// If the Poll bit is true, pull off the adc value
-	if (poll)
+	if (result.poll)
 	{
 		result.poll = true;
-		uint16_t adcData((static_cast<uint16_t> (cmdBytes[index]) << 8) + (cmdBytes[index + 1]));
+		uint16_t adcd1(static_cast<uint16_t> (cmdBytes[index]));
+		uint16_t adcd1a(adcd1  << 11);
+		uint16_t adcd1b(adcd1a >> 4);
+		uint16_t adcd2(static_cast<uint16_t> (cmdBytes[index+1]));
+		uint16_t adcd2a(adcd2 >> 1);
+		uint16_t adcData(adcd1b+adcd2a);
 		//convert adc bits to a double.
 		result.currentMilliAmp_ADC = adc2MilliAmp(adcData);
 		index += 2;
