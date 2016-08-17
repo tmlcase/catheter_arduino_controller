@@ -49,7 +49,15 @@ wxBEGIN_EVENT_TABLE(CatheterGuiFrame, wxFrame)
     EVT_BUTTON(CatheterGuiFrame::ID_SEND_COMMANDS_BUTTON, CatheterGuiFrame::OnSendCommandsButtonClicked)
     EVT_BUTTON(CatheterGuiFrame::ID_SEND_RESET_BUTTON, CatheterGuiFrame::OnSendResetButtonClicked)
 	EVT_BUTTON(CatheterGuiFrame::ID_SEND_POLL_BUTTON, CatheterGuiFrame::OnSendPollButtonClicked)
+	EVT_IDLE(CatheterGuiFrame::onIdle)
 wxEND_EVENT_TABLE()
+
+
+void CatheterGuiFrame::onIdle(wxIdleEvent & e)
+{
+	this->statusGridPtr->updateStatus(statusGridCmdPtr);
+	this->statusText->addText(statusTextData);
+}
 
 CatheterGuiFrame::CatheterGuiFrame(const wxString& title, SerialThreadObject* thrdPtr) : 
 wxFrame(NULL, wxID_ANY, title)
@@ -61,13 +69,16 @@ wxFrame(NULL, wxID_ANY, title)
     grid = new CatheterGrid(parentPanel);
 
 	// add the status grid:
-	 statusGridPtr = new StatusGrid(parentPanel);
+	statusGridPtr = new StatusGrid(parentPanel);
     
+	statusGridCmdPtr = new statusData;
 
 	// add the status text.
 	statusText = new CatheterStatusText(parentPanel, wxID_ANY);
-	serialObject->setStatusTextPtr(statusText);
-	serialObject->setStatusGrid(statusGridPtr);
+
+	statusTextData = new incomingText;
+	serialObject->setStatusTextPtr(statusTextData);
+	serialObject->setStatusGrid(statusGridCmdPtr);
     // control buttons (break this up into 2 rows)
 
     // row 1:
@@ -128,6 +139,8 @@ CatheterGuiFrame::~CatheterGuiFrame()
 {
 	//do nothing here 
 	//All windows should be auto cleaned.
+	delete statusGridCmdPtr;
+	delete statusTextData;
 }
 
 
@@ -181,10 +194,14 @@ void CatheterGuiFrame::OnSendCommandsButtonClicked(wxCommandEvent& e) {
 }
 
 
+
+
 void CatheterGuiFrame::OnSendPollButtonClicked(wxCommandEvent& e) {
 	sendPollCommand();
 	setStatusText(wxT("Poll Command Successfully Sent"));
 }
+
+
 
 void CatheterGuiFrame::OnSendResetButtonClicked(wxCommandEvent& e) {
     //setStatusText(wxT("Sending Reset Command...\n"));

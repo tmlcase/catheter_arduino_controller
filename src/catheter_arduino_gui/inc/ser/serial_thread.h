@@ -17,8 +17,8 @@ class SerialThreadObject
 public:
 	
 	SerialThreadObject();
-	void setStatusTextPtr(CatheterStatusText*);
-	void setStatusGrid(StatusGrid* );
+	void setStatusTextPtr(incomingText*);
+	void setStatusGrid(statusData*);
 
 	
 enum ThreadCmd {
@@ -82,20 +82,10 @@ private:
 
 
 	// gui handles
-	CatheterStatusText* textStatus;
-	StatusGrid* gridStatus;
+	statusData * statusGridData;
+	
+	incomingText* textStatusData;
 };
-
-
-
-
-
-
-
-
-
-
-
 
 
 #endif
