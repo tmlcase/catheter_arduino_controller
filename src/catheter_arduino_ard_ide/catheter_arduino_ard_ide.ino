@@ -48,13 +48,16 @@ int camera_write(int counter)
     int mriStatus = digitalRead(mriPin);
     if(mriStatus)
     {
+
         mriStartTime = millis();
+
         digitalWrite(CAMERA_PINS[2],HIGH);
     }
     else if(mriStartTime != 0)
     {
         unsigned long currentTime(millis());
-        unsigned long minOn(25); //minimum on time for the MRI pin
+
+        unsigned long minOn(20); //minimum on time for the MRI pin
         if((mriStartTime + minOn) < currentTime)
         {
         	digitalWrite(CAMERA_PINS[2],LOW);
