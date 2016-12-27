@@ -1,5 +1,18 @@
-function fun_generate_play_file(playString,currentList, delay);
-% This file is meant to generate the play file. 
+function fun_generate_play_file(playString, currentList, delay)
+%
+% fun_generate_play_file(playString,currentList, delay)
+%
+% Description:
+% This function generates play file from a current list and delay.
+%
+% Inputs:
+% playString is the name of the output play file.
+% currentList is a list of current. 
+%  Each current vector is a column vector.
+%  Current is in A.
+% delay is the time interval between two current vectors.
+%  Delay time is in ms.
+%
 
 [chan curr] = size(currentList);
 fprintf('The output current is %d channels by %d commands\n',chan, curr);

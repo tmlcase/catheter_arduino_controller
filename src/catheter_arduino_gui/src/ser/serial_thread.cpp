@@ -5,18 +5,22 @@
 #include <wx/wx.h>
 #include <wx/numdlg.h>
 // Here is the serial thread.
+
+#ifdef _MSC_VER
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-
 #ifdef _DEBUG
    #ifndef DBG_NEW
       #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
       #define new DBG_NEW
    #endif
 #endif  // _DEBUG
+#endif  // __MSC_VER
 
 #define PAUSE_INC_MS 1 //ms to wait between consecutive probes
+
+
 
 // This thread loop is created as part of 
 void SerialThreadObject::serialLoop()
@@ -30,6 +34,7 @@ void SerialThreadObject::serialLoop()
 	{
 		if(ss->dataAvailable())
 		{
+			
 			CatheterChannelCmd incomingData;
 			boost::mutex::scoped_lock lock(threadMutex);
 			comStatus newCom(ss->getData(commandFromArd.commandList));
@@ -58,6 +63,7 @@ void SerialThreadObject::serialLoop()
 			if (diffAmt > delay)
 			{
 				// send the first command
+				printf("Sending command: \n");
 				t1 = boost::posix_time::microsec_clock::local_time();
 				boost::mutex::scoped_lock lock(threadMutex);
 				ss->sendCommand(commandsToArd[0],cmdIndex);
@@ -172,7 +178,7 @@ void SerialThreadObject::serialCommand(const ThreadCmd& incomingCommand)
 }
 
 // explicit constructor
-SerialThreadObject::SerialThreadObject(): connected(false), ss(new CatheterSerialSender), thrd(),
+SerialThreadObject::SerialThreadObject(): connected(false), active(true), ss(new CatheterSerialSender), thrd(),
 	textStatusData(NULL), statusGridData(NULL)
 {
 	// initialize all of the variables.

@@ -36,18 +36,47 @@ unsigned int camera_counter;
 
 int camera_write(int counter)
 {
-	// make sure counter is integer 0 - 7
-	counter = counter % 4;
-	if (counter % 2 == 1) digitalWrite(CAMERA_PINS[0], HIGH);
-  else digitalWrite(CAMERA_PINS[0], LOW);
-  if ((counter >> 1) % 2 == 1) digitalWrite(CAMERA_PINS[1], HIGH);
-  else digitalWrite(CAMERA_PINS[1], LOW);
-  int mriStatus = digitalRead(mriPin);
-  if(mriStatus) digitalWrite(CAMERA_PINS[2],HIGH);
-  else digitalWrite(CAMERA_PINS[2],LOW);
-  // if (counter >= 4) digitalWrite(CAMERA_PINS[2], HIGH);
-  // else digitalWrite(CAMERA_PINS[2], LOW);
-  return mriStatus;
+    static unsigned long mriStartTime(0);
+    
+    // make sure counter is integer 0 - 7
+    counter = counter % 4;
+    if (counter % 2 == 1) digitalWrite(CAMERA_PINS[0], HIGH);
+    else digitalWrite(CAMERA_PINS[0], LOW);
+    if ((counter >> 1) % 2 == 1) digitalWrite(CAMERA_PINS[1], HIGH);
+    else digitalWrite(CAMERA_PINS[1], LOW);
+    
+    int mriStatus = digitalRead(mriPin);
+    if(mriStatus)
+    {
+
+        mriStartTime = millis();
+
+        digitalWrite(CAMERA_PINS[2],HIGH);
+    }
+    else if(mriStartTime != 0)
+    {
+        unsigned long currentTime(millis());
+
+        unsigned long minOn(20); //minimum on time for the MRI pin
+        if((mriStartTime + minOn) < currentTime)
+        {
+        	digitalWrite(CAMERA_PINS[2],LOW);
+        	mriStartTime = 0;
+        }
+        else if(mriStartTime > currentTime && currentTime > minOn )
+        {
+        	digitalWrite(CAMERA_PINS[2],LOW);
+        	mriStartTime = 0;
+        }
+    }
+    else
+    {
+    	digitalWrite(CAMERA_PINS[2],LOW);
+    	mriStartTime = 0;
+    }
+    // if (counter >= 4) digitalWrite(CAMERA_PINS[2], HIGH);
+    // else digitalWrite(CAMERA_PINS[2], LOW);
+    return mriStatus;
 }
 
 #include "cmd_support.h"
