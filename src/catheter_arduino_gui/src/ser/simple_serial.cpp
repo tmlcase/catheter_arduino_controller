@@ -1,14 +1,20 @@
  #include "ser/simple_serial.h"
- #define _CRTDBG_MAP_ALLOC
+
+#include <stdio.h>
+#include <iostream>
+
+
+#ifdef _MSC_VER
+#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-
 #ifdef _DEBUG
    #ifndef DBG_NEW
       #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
       #define new DBG_NEW
    #endif
 #endif  // _DEBUG
+#endif  // __MSC_VER
 
 SerialPort::SerialPort(void)
 {
@@ -111,15 +117,15 @@ std::vector<std::string> SerialPort::get_port_names() {
 	}
 #else
 	std::string path = "/dev/tty";
-	FILE *pipe = std::popen("ls /dev/tty* | egrep -o \"(ACM|USB)[0-9]\" | tr -d '\n'", "r");
-	if (!pipe) return false;
+	FILE *pipe = popen("ls /dev/tty* | egrep -o \"(ACM|USB)[0-9]\" | tr -d '\n'", "r");
+	if (!pipe) return ports;
 	char buf[8];
 	while (!feof(pipe)) {
 		if (fgets(buf, 8, pipe) != NULL) {
 			ports.push_back(path + buf);
 		}
 	}
-	std::pclose(pipe);
+	pclose(pipe);
 #endif
 	stop();
 	return ports;
@@ -165,13 +171,22 @@ void SerialPort::on_receive_(const boost::system::error_code& ec, size_t bytes_t
 	boost::mutex::scoped_lock look(mutex_);
 	tRecieve = clock();
 	clock_t dt = tRecieve - tSend;
-	printf("It took me %d clicks (%f seconds). to reply.\n", dt, ((float)dt) / CLOCKS_PER_SEC);
-	if (port_.get() == NULL || !port_->is_open()) return;
+	printf("It took me %d clicks (%f seconds). to reply.\n", static_cast<int> (dt), ((float)dt) / CLOCKS_PER_SEC);
+
+	if (port_.get() == NULL || !port_->is_open()) 
+	{
+	 printf("Null or closed port");
+	 return;
+	}
 	if (ec) {
+		printf("read bytes");
 		async_read_some_();
 		return;
 	}
-
+	else
+	{
+		ec.message();
+	}
 	for (unsigned int i = 0; i < bytes_transferred; ++i) {
 		unsigned char c = read_buf_raw_[i];
 		//read_buf_str_ += c;
@@ -203,25 +218,43 @@ int SerialPort::write_some_bytes(const std::vector<uint8_t> &buf, const int &siz
 }
 
 void SerialPort::async_read_some_bytes_() {
-	if (port_.get() == NULL || !port_->is_open()) return;
+	if (port_.get() == NULL || !port_->is_open())
+	{
+		printf("invalid port");	
+		return;
+	}
+
+	boost::system::error_code ec;
 
 	port_->async_read_some(
 		boost::asio::buffer(read_buf_bytes_raw_, SERIAL_PORT_READ_BUF_SIZE),
 		boost::bind(
 		&SerialPort::on_receive_bytes_,
-		this, boost::asio::placeholders::error,
+		this, ec,
 		boost::asio::placeholders::bytes_transferred));
+
+	ec.message();
+
 }
 
 void SerialPort::on_receive_bytes_(const boost::system::error_code& ec, size_t bytes_transferred) {
 	boost::mutex::scoped_lock look(mutex_);
 	tRecieve = clock();
 	clock_t dt = tRecieve - tSend;
-	printf("It took me %d clicks (%f seconds). to reply.\n", dt, ((float)dt) / CLOCKS_PER_SEC);
-	if (port_.get() == NULL || !port_->is_open()) return;
+	printf("It took me %d clicks (%f seconds). to reply.\n", static_cast<int> (dt), ((float)dt) / CLOCKS_PER_SEC);
+	if (port_.get() == NULL || !port_->is_open())
+	{
+	 printf("Null or closed port");
+	 return;
+	}
 	if (ec) {
+		printf("read bytes");
 		async_read_some_bytes_();
 		return;
+	}
+	else
+	{
+		ec.message();
 	}
 
 	for (unsigned int i = 0; i < bytes_transferred; ++i) {

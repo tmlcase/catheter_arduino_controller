@@ -3,7 +3,7 @@
 #ifndef CATHETER_COM_H
 #define CATHETER_COM_H
 
-#include "com\communication_definitions.h"
+#include "com/communication_definitions.h"
 
 #include <vector>
 #include <cstring>

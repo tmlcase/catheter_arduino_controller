@@ -1,12 +1,12 @@
 
-#include "wx/wx.h"
+#include <wx/wx.h>
 
 
-#include "wx/panel.h"
-#include "wx/grid.h"
-#include "wx/headerctrl.h"
-#include "wx/generic/gridctrl.h"
-#include "wx/generic/grideditors.h"
+#include <wx/panel.h>
+#include <wx/grid.h>
+#include <wx/headerctrl.h>
+#include <wx/generic/gridctrl.h>
+#include <wx/generic/grideditors.h>
 
 #include "gui/catheter_grid.h"
 
@@ -16,18 +16,20 @@
 
 #include <vector>
 
-#include "com\communication_definitions.h"
+#include "com/communication_definitions.h"
+
+#ifdef _MSC_VER
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-
 #ifdef _DEBUG
    #ifndef DBG_NEW
       #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
       #define new DBG_NEW
    #endif
 #endif  // _DEBUG
+#endif  // __MSC_VER
 
 #define CHANNEL_COL 0
 #define CURRENT_COL 1
