@@ -106,6 +106,7 @@ bool addr_is_global(uint8_t addr) {
 
 bool mriStatOld;
 
+unsigned long tof = 0;
 /* ************ */
 /* main program */
 /* ************ */
@@ -154,6 +155,7 @@ void loop() {
         if (mriStat && !mriStatOld)
         {
           mriStatOld = true;
+          tof = millis();
           // set the axial coil (channel 3) to be at 75 ma.
           // do NOT change directions.
           DAC_write(0, 0);
@@ -161,24 +163,28 @@ void loop() {
           if ( channelList[2].enable == 0)
           {
             // renable channel 3 (toindexed as 2).
-            toggle_enable(2, 1);
+            // disable channel2
+            toggle_enable(2, 0);
           }
-          uint16_t maSettings(960); // This is the 75 ma (estimated value for the MRI).
+          uint16_t maSettings(00); // This is the 75 ma (estimated value for the MRI).
           DAC_write(2, maSettings);
         }
         if (!mriStat && mriStatOld)
         {
-          mriStatOld = false;
-          // resets the coil currents to their previous values.
-          // do NOT change directions.
-          DAC_write(0, channelList[0].DAC_val);
-          DAC_write(1, channelList[1].DAC_val);
-          // reset channel 3 (toindexed as 2) to desired value.
-          toggle_enable(2, channelList[2].enable);
-          set_direction(2, channelList[2].dir);
-          //and direction.
+          if ((tof+40) <  (millis()))
+          { 
+            mriStatOld = false;
+            // resets the coil currents to their previous values.
+            // do NOT change directions.
+            DAC_write(0, channelList[0].DAC_val);
+            DAC_write(1, channelList[1].DAC_val);
+            // reset channel 3 (toindexed as 2) to desired value.
+            toggle_enable(2, channelList[2].enable);
+            set_direction(2, channelList[2].dir);
+            //and direction.
           
-          DAC_write(2, channelList[2].DAC_val);
+            DAC_write(2, channelList[2].DAC_val);
+          }
         }
         
 }  //end loop

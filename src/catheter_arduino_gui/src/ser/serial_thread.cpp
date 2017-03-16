@@ -46,7 +46,7 @@ void SerialThreadObject::serialLoop()
 					statusGridData->updateCmdList(commandFromArd.commandList);
 				}
 			}
-
+  
 		}
 		// This is a fifo command
 		// warning: no lock is used to read the vector size.
