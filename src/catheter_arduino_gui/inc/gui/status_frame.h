@@ -36,7 +36,7 @@ public:
 	 StatusGrid(wxPanel* parent);
     ~StatusGrid();
 
-    void updateStatus(statusData*);
+    bool updateStatus(statusData*);
 
     // void SetCommands(const std::vector<CatheterChannelCmdSet>& cmds);
 	// void GetCommands(std::vector<CatheterChannelCmdSet>& cmds);

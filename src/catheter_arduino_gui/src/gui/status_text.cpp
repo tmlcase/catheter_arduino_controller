@@ -47,9 +47,11 @@ bool CatheterStatusText::addText(incomingText *incomingInfo)
 		{
 			SetCatheterStatusText(wxString(incomingInfo->stringData));
 			incomingInfo->stringData.clear();
+			incomingInfo->update = false;
+			return true;
 		}
 		incomingInfo->update = false;
-        return true;
+        return false;
 }
 
 	bool CatheterStatusText::addWxText(const wxString& msg)

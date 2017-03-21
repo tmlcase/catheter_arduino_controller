@@ -43,7 +43,7 @@ StatusGrid::StatusGrid(wxPanel* parentPanel):
    
 }
 
-void StatusGrid::updateStatus(statusData* inputData)
+bool StatusGrid::updateStatus(statusData* inputData)
 {
 	
 	boost::mutex::scoped_lock lock(inputData->statusMutex);
@@ -66,8 +66,9 @@ void StatusGrid::updateStatus(statusData* inputData)
 			}
 		}
 		inputData->updated = false;
+		return true;
 	}
-	return;
+	return false;
 }
 
 
