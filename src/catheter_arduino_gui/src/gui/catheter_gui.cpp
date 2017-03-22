@@ -59,8 +59,14 @@ wxEND_EVENT_TABLE()
 
 void CatheterGuiFrame::onIdle(wxIdleEvent & e)
 {
-	this->statusGridPtr->updateStatus(statusGridCmdPtr);
-	this->statusText->addText(statusTextData);
+	bool update(false);
+	update |= this->statusGridPtr->updateStatus(statusGridCmdPtr);
+	update |= this->statusText->addText(statusTextData);
+	if (update)
+	{
+		this->Refresh();
+	}
+	e.RequestMore();
 }
 
 CatheterGuiFrame::CatheterGuiFrame(const wxString& title, SerialThreadObject* thrdPtr) : 

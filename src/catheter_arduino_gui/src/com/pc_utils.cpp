@@ -1,4 +1,5 @@
 #include "com/catheter_commands.h"
+#include <algorithm>
 
 
 #ifdef _MSC_VER
